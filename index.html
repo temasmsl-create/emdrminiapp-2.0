@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMDR Qazaqstan</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>EMDR QAZAQSTAN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
@@ -11,237 +11,329 @@
     --bg:#fbfcfe; --card:#ffffff; --accent-1:#173e9b; --accent-2:#6fa8ff; --text:#0f1724;
     --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
   }
-  html,body{height:100%;margin:0;background:var(--bg);font-family:-apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial;}
-  #appOverlay{position:fixed;inset:0;display:flex;flex-direction:column;}
-  .app-header{height:60px;padding-top:var(--safe-top);padding-left:12px;padding-right:12px;display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--accent-1), #2f6bff);color:#fff;}
-  .app-title{font-weight:800;font-size:16px;flex:1;text-transform:uppercase;}
+  html,body{height:100%;margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--text)}
+  #appOverlay{position:fixed;inset:0;z-index:99999;background:linear-gradient(180deg,#f8fbff 0%, #eef6ff 100%);display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+  .app-header{height:62px;padding-top:calc(var(--safe-top) + 6px);padding-left:12px;padding-right:12px;display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--accent-1), #2f6bff);color:#fff;box-shadow:0 2px 10px rgba(15,30,80,0.12)}
+  .app-logo{height:36px;width:36px;border-radius:8px;background:#fff;padding:4px;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+  .app-logo img{height:100%;width:100%;object-fit:contain}
+  .app-title{font-weight:800;font-size:16px;flex:1;text-transform:uppercase;letter-spacing:0.6px}
   .app-close{background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;border:0}
-  .app-body{flex:1;overflow:auto;padding:18px;padding-bottom:calc(22px + var(--safe-bottom));}
-  .card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 4px 16px rgba(0,0,0,0.05);margin-bottom:14px}
+  .app-body{flex:1;overflow:auto;padding:18px;padding-bottom:calc(22px + var(--safe-bottom))}
+  .card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(27,46,89,0.06);margin-bottom:14px}
   h2{margin:0 0 6px;font-size:18px}
-  .small{margin:0 0 12px;color:#475569;font-size:14px}
-  .row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-  label{min-width:90px;font-weight:700;font-size:14px;color:var(--text);}
-  .range-wrap{flex:1;display:flex;align-items:center;gap:10px;}
-  input[type=range]{-webkit-appearance:none;width:100%;height:28px;background:transparent;}
-  input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:#e6f0ff}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent-2);box-shadow:0 4px 14px rgba(47,107,255,0.25);margin-top:-7px}
-  .value{width:46px;text-align:center;font-weight:800;}
-  .controls{display:flex;gap:10px;margin-top:6px;}
-  .btn{flex:1;padding:12px;border-radius:12px;border:0;font-weight:800;color:#fff;font-size:16px;cursor:pointer;}
-  .btn.start{background:var(--accent-1);}
-  .btn.pause{background:#f6a54a;}
-  .btn.stop{background:#ff5a5a;}
-  #play-area{position:relative;height:280px;margin-top:12px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #dde7ff;}
-  #emdr-ball{position:absolute;top:50%;transform:translateY(-50%);display:none;border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, #9bbaff 0%, var(--accent-2) 45%, var(--accent-1) 100%);
-    box-shadow:0 12px 28px rgba(31,76,189,0.25), inset 0 -8px 18px rgba(0,0,0,0.15);
-  }
-  .counter{margin-top:10px;font-weight:800;color:var(--text);}
-
-  /* DIALOG */
-  .dialog-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;}
-  .dialog{background:#fff;padding:16px;border-radius:12px;max-width:90%;}
-  textarea{width:100%;min-height:80px;border:1px solid #ccc;border-radius:8px;padding:8px;}
-  .send-btn{background:var(--accent-1);color:#fff;margin-top:8px;padding:10px;border-radius:8px;border:0;font-weight:700;width:100%;cursor:pointer;}
+  p.small{margin:0 0 12px;color:#475569;font-size:14px}
+  .row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  label{min-width:96px;font-weight:700;color:var(--text);font-size:14px}
+  .range-wrap{flex:1;display:flex;align-items:center;gap:10px}
+  input[type=range]{-webkit-appearance:none;width:100%;height:28px;background:transparent}
+  input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:linear-gradient(90deg,#e6f0ff,#eaf4ff)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;margin-top:-8px;width:22px;height:22px;border-radius:999px;background:var(--accent-2);box-shadow:0 8px 20px rgba(47,107,255,0.18);border:2px solid var(--accent-1)}
+  .value{width:46px;text-align:center;font-weight:800}
+  .controls{display:flex;gap:10px;margin-top:6px}
+  .btn{flex:1;padding:12px;border-radius:12px;border:0;font-weight:800;background:var(--accent-1);color:#fff;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(47,107,255,0.18)}
+  .btn.secondary{background:#f6a54a;box-shadow:0 8px 20px rgba(246,165,74,0.14)}
+  .btn.danger{background:#ff5a5a;box-shadow:0 8px 20px rgba(255,90,90,0.12)}
+  #play-area{position:relative;height:270px;margin-top:12px;background:linear-gradient(180deg,#ffffff,#f6fbff);border-radius:12px;overflow:hidden;border:1px solid rgba(14,40,85,0.04)}
+  #emdr-ball{position:absolute;top:50%;transform:translateY(-50%);display:none;border-radius:50%;background:radial-gradient(circle at 30% 30%, #9bbaff 0%, var(--accent-2) 45%, var(--accent-1) 100%);box-shadow:0 12px 28px rgba(31,76,189,0.16),inset 0 -8px 18px rgba(0,0,0,0.06)}
+  .counter{margin-top:10px;font-weight:800;color:var(--text)}
+  .dialog-overlay{position:absolute;inset:0;background:rgba(8,12,24,0.28);display:flex;align-items:center;justify-content:center;z-index:5}
+  .dialog{width:90%;max-width:720px;background:#fff;border-radius:12px;padding:16px;box-shadow:0 12px 36px rgba(8,18,48,0.3);text-align:center}
+  .dialog p{margin:10px 0;font-weight:700}
+  .dialog textarea{width:100%;min-height:92px;padding:10px;border-radius:8px;border:1px solid #e6eefb;resize:vertical}
+  .dialog .send-btn{margin-top:8px;padding:10px 14px;border-radius:10px;background:var(--accent-1);color:#fff;border:0;font-weight:800;cursor:pointer}
+  @media (min-width:900px){#appOverlay{align-items:center}.app-body{max-width:780px}}
 </style>
 </head>
-
 <body>
-<div id="appOverlay">
+<div id="appOverlay" role="application" aria-label="EMDR mini app">
   <div class="app-header">
-    <div class="app-title">EMDR Qazaqstan</div>
-    <button id="closeApp" class="app-close">Закрыть</button>
+    <div class="app-logo"><img id="logoImg" src="PUT_YOUR_LOGO_URL_HERE" alt="logo"/></div>
+    <div class="app-title">EMDR QAZAQSTAN</div>
+    <button class="app-close" id="closeApp">Закрыть</button>
   </div>
 
   <div class="app-body">
     <div class="card">
       <h2>EMDR — мини-сессия</h2>
-      <p class="small">Выставь параметры → нажми <b>Старт</b>.</p>
+      <p class="small">Выставь параметры слайдерами и нажми <strong>Старт</strong>. Следи взглядом за мячиком.</p>
 
       <div class="row">
         <label>Скорость</label>
         <div class="range-wrap">
-          <input id="speedRange" type="range" min="1" max="20" value="10">
-          <div id="speedVal" class="value">10</div>
+          <input id="speedRange" type="range" min="1" max="20" value="10" />
+          <div class="value" id="speedVal">10</div>
         </div>
       </div>
 
       <div class="row">
         <label>Размер</label>
         <div class="range-wrap">
-          <input id="sizeRange" type="range" min="1" max="5" value="3">
-          <div id="sizeVal" class="value">3</div>
+          <input id="sizeRange" type="range" min="1" max="5" value="3" />
+          <div class="value" id="sizeVal">3</div>
         </div>
       </div>
 
       <div class="row">
         <label>Сеты</label>
         <div class="range-wrap">
-          <input id="setsRange" type="range" min="1" max="30" value="10">
-          <div id="setsVal" class="value">10</div>
+          <input id="setsRange" type="range" min="1" max="30" value="10" />
+          <div class="value" id="setsVal">10</div>
         </div>
       </div>
 
       <div class="controls">
-        <button id="startBtn" class="btn start">Старт</button>
-        <button id="pauseBtn" class="btn pause" style="display:none;">Пауза</button>
-        <button id="stopBtn" class="btn stop" style="display:none;">Стоп</button>
+        <button id="startBtn" class="btn">Старт</button>
+        <button id="pauseBtn" class="btn secondary" style="display:none">Пауза</button>
+        <button id="stopBtn" class="btn danger" style="display:none">Стоп</button>
       </div>
 
-      <div id="set-counter" class="counter"></div>
+      <div class="counter" id="set-counter"></div>
     </div>
 
-    <div id="play-area" class="card">
-      <div id="emdr-ball"></div>
+    <div id="play-area" class="card" aria-hidden="false">
+      <div id="emdr-ball" aria-hidden="true"></div>
+      <!-- dialog overlay will be inserted here dynamically -->
     </div>
   </div>
 </div>
 
 <script>
-let tg=false;try{tg=window.Telegram.WebApp;tg.expand();}catch(e){}
-const speedRange = speedRange;
-const sizeRange  = sizeRange;
-const setsRange  = setsRange;
+/*
+  Важные поправки:
+  - Ждём DOMContentLoaded чтобы все getElementById были валидны.
+  - Wrap Telegram WebApp вызовы в try/catch (чтобы не падало в браузере).
+  - Чётко объявляем константы/переменные.
+  - Обработка orientation/resize.
+  - Один диалог за запуск.
+*/
+document.addEventListener('DOMContentLoaded', function () {
+  // Telegram safe init
+  let tg = null;
+  try { if (window.Telegram && window.Telegram.WebApp) { tg = window.Telegram.WebApp; try{ tg.expand(); }catch(e){} } } catch(e){ tg = null; }
 
-speedRange.oninput = ()=> speedVal.innerText = speedRange.value;
-sizeRange.oninput  = ()=> sizeVal.innerText  = sizeRange.value;
-setsRange.oninput  = ()=> setsVal.innerText  = setsRange.value;
+  // DOM refs (now safe)
+  const speedRange = document.getElementById('speedRange');
+  const sizeRange  = document.getElementById('sizeRange');
+  const setsRange  = document.getElementById('setsRange');
+  const speedVal   = document.getElementById('speedVal');
+  const sizeVal    = document.getElementById('sizeVal');
+  const setsVal    = document.getElementById('setsVal');
 
-let animationId=null, vx=0, posX=0, direction=1, setsLeft=0, paused=false, dialogShown=false;
-const ball = document.getElementById("emdr-ball");
-const playArea = document.getElementById("play-area");
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const stopBtn  = document.getElementById('stopBtn');
 
-function recalc(){
-  const ballSize = Number(sizeRange.value)*18+10;
-  ball.style.width = ballSize+"px";
-  ball.style.height = ballSize+"px";
-  fullWidth = playArea.clientWidth - ballSize;
-}
-window.onresize = recalc;
+  const ball = document.getElementById('emdr-ball');
+  const playArea = document.getElementById('play-area');
+  const counterEl = document.getElementById('set-counter');
+  const closeBtn = document.getElementById('closeApp');
 
-function start(){
-  posX=0;
-  direction=1;
-  setsLeft = Number(setsRange.value);
-  vx = Number(speedRange.value) * 0.6;
-  paused=false;
-  dialogShown=false;
+  // logo fallback: hide if broken
+  const logoImg = document.getElementById('logoImg');
+  logoImg.onerror = () => { logoImg.style.display = 'none'; };
 
-  recalc();
+  closeBtn.addEventListener('click', function () { try { if(tg) tg.close(); else history.back(); } catch(e){ history.back(); } });
 
-  startBtn.style.display="none";
-  pauseBtn.style.display="inline-block";
-  stopBtn.style.display="inline-block";
+  // update labels on input
+  speedRange.addEventListener('input', ()=> speedVal.textContent = speedRange.value);
+  sizeRange.addEventListener('input',  ()=> sizeVal.textContent  = sizeRange.value);
+  setsRange.addEventListener('input',  ()=> setsVal.textContent  = setsRange.value);
 
-  ball.style.display="block";
-  animate();
-}
+  // state
+  let animationId = null;
+  let vx = 0;
+  let direction = 1;
+  let setsLeft = 0;
+  let paused = false;
+  let posX = 0;
+  let fullWidth = 0;
+  let ballPx = 48;
+  let audioCtx = null;
+  let dialogShown = false;
+  let dialogActive = false;
+  let resumeAfterDialog = false;
 
-function animate(){
-  if(!paused){
-    posX += vx * direction;
-    if(posX>=fullWidth){direction=-1; posX=fullWidth; playSound();}
-    if(posX<=0){
-      direction=1; posX=0; playSound();
-      setsLeft--;
-      document.getElementById("set-counter").innerHTML="Осталось сетов: <b>"+setsLeft+"</b>";
-
-      if(setsLeft<=0){ endNatural(); return; }
+  // sound (rubbery)
+  function playRubberBounce(){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const o1 = audioCtx.createOscillator(); o1.type='triangle'; o1.frequency.value = 260 + Math.random()*120;
+      const o2 = audioCtx.createOscillator(); o2.type='sine'; o2.frequency.value = o1.frequency.value * 1.6;
+      const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1200;
+      const g = audioCtx.createGain(); g.gain.value = 0.0001;
+      o1.connect(filter); o2.connect(filter); filter.connect(g); g.connect(audioCtx.destination);
+      g.gain.linearRampToValueAtTime(0.18, now + 0.003);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+      o1.frequency.setValueAtTime(o1.frequency.value * 1.15, now);
+      o1.frequency.exponentialRampToValueAtTime(o1.frequency.value * 0.9, now + 0.12);
+      o1.start(now); o2.start(now); o1.stop(now + 0.26); o2.stop(now + 0.26);
+    }catch(e){
+      // audio can fail on some browsers without gesture
     }
-    ball.style.left = posX+"px";
   }
-  animationId=requestAnimationFrame(animate);
-}
 
-function playSound(){
-  try{
-    const ctx=new AudioContext();
-    const osc=ctx.createOscillator();
-    const gain=ctx.createGain();
-    osc.type="triangle";
-    osc.frequency.value=300;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.25);
-    osc.start(); osc.stop(ctx.currentTime+0.25);
-  }catch(e){}
-}
-
-function pauseToggle(){
-  paused=!paused;
-  pauseBtn.innerText = paused ? "Продолжить" : "Пауза";
-
-  if(paused && !dialogShown){
-    dialogShown=true;
-    showDialog();
+  // recalc sizes
+  function recalc(){
+    ballPx = Number(sizeRange.value) * 18 + 12; // nice mapping
+    ball.style.width = ball.style.height = ballPx + 'px';
+    fullWidth = Math.max(0, playArea.clientWidth - ballPx);
+    posX = Math.min(Math.max(0, posX), fullWidth);
+    ball.style.left = posX + 'px';
   }
-}
+  window.addEventListener('resize', recalc);
+  window.addEventListener('orientationchange', ()=> setTimeout(recalc, 120));
 
-function stop(){
-  if(animationId) cancelAnimationFrame(animationId);
-  ball.style.display="none";
+  // UI helpers
+  function updateCounter(){ counterEl.innerHTML = 'Осталось сетов: <b>' + setsLeft + '</b>'; }
 
-  startBtn.style.display="inline-block";
-  pauseBtn.style.display="none";
-  stopBtn.style.display="none";
+  function startSession(){
+    const speed = Number(speedRange.value); // 1..20
+    // mapping: max 20 -> half as fast as previous "40" behavior
+    vx = 0.8 * speed;
+    setsLeft = Number(setsRange.value);
+    posX = 0;
+    direction = 1;
+    paused = false;
+    resumeAfterDialog = false;
 
-  if(!dialogShown){
-    dialogShown=true;
-    showDialog();
+    startBtn.style.display = 'none';
+    pauseBtn.style.display = 'inline-block';
+    stopBtn.style.display = 'inline-block';
+    pauseBtn.textContent = 'Пауза';
+
+    ball.style.display = 'block';
+    recalc();
+    updateCounter();
+    if(animationId) cancelAnimationFrame(animationId);
+    animationLoop();
   }
-}
 
-function endNatural(){
-  if(animationId) cancelAnimationFrame(animationId);
-  ball.style.display="none";
-  startBtn.style.display="inline-block";
-  pauseBtn.style.display="none";
-  stopBtn.style.display="none";
-
-  if(!dialogShown){
-    dialogShown=true;
-    showDialog(true);
+  function pauseToggle(){
+    paused = !paused;
+    pauseBtn.textContent = paused ? 'Продолжить' : 'Пауза';
+    // first time pause -> show dialog once
+    if(paused && !dialogShown && !dialogActive){
+      showDialogFlow({trigger:'pause'});
+    }
   }
-}
 
-function showDialog(isFinal=false){
-  const overlay=document.createElement("div");
-  overlay.className="dialog-overlay";
+  function stopSession(){
+    if(animationId) cancelAnimationFrame(animationId);
+    animationId = null;
+    ball.style.display = 'none';
+    startBtn.style.display = 'inline-block';
+    pauseBtn.style.display = 'none';
+    stopBtn.style.display = 'none';
+    if(!dialogShown && !dialogActive){
+      resumeAfterDialog = true;
+      showDialogFlow({trigger:'stop'});
+    }
+  }
 
-  overlay.innerHTML=`
-    <div class="dialog">
-      <p id="dlg-text">Что удалось заметить?</p>
-      <div id="dlg-input" style="display:none;">
-        <textarea id="dlg-area"></textarea>
-        <button class="send-btn" id="dlg-send">Отправить</button>
+  function endSessionNatural(){
+    if(animationId) cancelAnimationFrame(animationId);
+    animationId = null;
+    ball.style.display = 'none';
+    startBtn.style.display = 'inline-block';
+    pauseBtn.style.display = 'none';
+    stopBtn.style.display = 'none';
+    if(!dialogShown && !dialogActive){
+      resumeAfterDialog = false;
+      showDialogFlow({trigger:'natural'});
+    }
+  }
+
+  function animationLoop(){
+    if(!paused){
+      posX += vx * direction;
+      if(posX >= fullWidth){
+        posX = fullWidth;
+        direction = -1;
+        onBounce();
+      } else if(posX <= 0){
+        posX = 0;
+        direction = 1;
+        // completed one left->right->left cycle
+        setsLeft = Math.max(0, setsLeft - 1);
+        updateCounter();
+        onBounce();
+        if(setsLeft <= 0){
+          endSessionNatural();
+          return;
+        }
+      }
+      ball.style.left = posX + 'px';
+    }
+    animationId = requestAnimationFrame(animationLoop);
+  }
+
+  function onBounce(){
+    playRubberBounce();
+    try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+  }
+
+  // wiring
+  startBtn.addEventListener('click', startSession);
+  pauseBtn.addEventListener('click', pauseToggle);
+  stopBtn.addEventListener('click', stopSession);
+
+  // DIALOG FLOW (single-run)
+  function showDialogFlow(meta={trigger:'manual'}){
+    dialogActive = true;
+    dialogShown = true;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'dialog-overlay';
+    overlay.innerHTML = `
+      <div class="dialog">
+        <p id="dlg-text">Что удалось заметить?</p>
+        <div id="dlg-input-wrap" style="display:none;">
+          <textarea id="dlg-textarea" placeholder="Опишите ваши ощущения, заметки..."></textarea>
+          <button id="dlg-send" class="send-btn">Отправить</button>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+    playArea.appendChild(overlay);
 
-  playArea.appendChild(overlay);
+    const textEl = overlay.querySelector('#dlg-text');
+    const inputWrap = overlay.querySelector('#dlg-input-wrap');
+    const textarea = overlay.querySelector('#dlg-textarea');
+    const sendBtn = overlay.querySelector('#dlg-send');
 
-  setTimeout(()=>{
-    document.getElementById("dlg-text").style.display="none";
-    document.getElementById("dlg-input").style.display="block";
-  },2000);
+    setTimeout(()=>{ textEl.style.display='none'; inputWrap.style.display='block'; textarea.focus(); }, 2000);
 
-  document.getElementById("dlg-send").onclick=()=>{
-    document.getElementById("dlg-input").style.display="none";
-    document.getElementById("dlg-text").innerText="Хорошо. Заметь это";
-    document.getElementById("dlg-text").style.display="block";
+    sendBtn.addEventListener('click', ()=>{
+      const val = textarea.value.trim();
+      // Optionally: send to Telegram bot backend or tg.sendData
+      // if(tg && tg.sendData) tg.sendData(JSON.stringify({note: val}));
+      inputWrap.style.display='none';
+      textEl.innerText = 'Хорошо. Заметь это';
+      textEl.style.display = 'block';
+      setTimeout(()=>{
+        overlay.remove();
+        dialogActive = false;
+        if(resumeAfterDialog){
+          resumeAfterDialog = false;
+          // resume UI and animation
+          startBtn.style.display = 'none';
+          pauseBtn.style.display = 'inline-block';
+          stopBtn.style.display = 'inline-block';
+          paused = false;
+          ball.style.display = 'block';
+          if(animationId) cancelAnimationFrame(animationId);
+          animationLoop();
+        }
+      }, 2000);
+    }, {once: true});
+  }
 
-    setTimeout(()=>{
-      overlay.remove();
-    },2000);
-  };
-}
+  // initial recalc & safety
+  recalc();
+  // expose helper (for debugging)
+  window.__emdr = {startSession, pauseToggle, stopSession, recalc};
 
-startBtn.onclick = start;
-pauseBtn.onclick = pauseToggle;
-stopBtn.onclick = stop;
+}); // DOMContentLoaded
 </script>
-
 </body>
 </html>
